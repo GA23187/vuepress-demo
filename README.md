@@ -77,7 +77,48 @@ sidebar: false
 ---
 ```
 
+## 部署
 
+### GitHub Pages and Github Actions
+
+1. 在 `docs/.vuepress/config.js` 中设置正确的 `base`。
+
+   如果你打算发布到 `https://<USERNAME>.github.io/`，则可以省略这一步，因为 `base` 默认即是 `"/"`。
+
+   如果你打算发布到 `https://<USERNAME>.github.io/<REPO>/`（也就是说你的仓库在 `https://github.com/<USERNAME>/<REPO>`），则将 `base` 设置为 `"/<REPO>/"`。
+
+   > 注意一定要后面带/ 不然生成的html会这样 `<link rel="icon" href="/vuepress-demologo.png">`
+
+2. 创建 [Github access token (opens new window)](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token);
+
+3. 在你 github 仓库下，创建一个 [secrets (opens new window)](https://docs.github.com/en/actions/security-guides/encrypted-secrets)，填入刚创建的 `token`
+
+4. 在项目根目录下的 `.github/workflows` 目录（没有的话，请手动创建一个）下创建一个 `.yml` 或者 `.yaml` 文件，如:`vuepress-deploy.yml`;
+
+```yml
+name: Build and Deploy
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: vuepress-deploy
+      uses: jenkey2011/vuepress-deploy@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        TARGET_REPO: username/repo
+        TARGET_BRANCH: master
+        BUILD_SCRIPT: yarn && yarn docs:build
+        BUILD_DIR: docs/.vuepress/dist
+        CNAME: https://www.xxx.com
+```
+
+根据实际情况修改
+
+详细使用方法，可以看[jenkey2011/vuepress-deploy(opens new window)](https://github.com/jenkey2011/vuepress-deploy/)
 
 ## 问题
 
@@ -105,4 +146,8 @@ module.exports = {
 }
 ```
 
-- https://www.meowpass.com/pages/5f4328/
+参考：
+
+- [博客无法加载Webp格式图片解决方法](https://www.meowpass.com/pages/5f4328/)
+- [为 Vuepress 增加图片放大功能的几种方法](https://logi.im/front-end/ways-to-add-image-zoom-feature-for-vuepress.html)
+

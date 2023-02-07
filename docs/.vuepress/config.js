@@ -1,6 +1,6 @@
 module.exports = {
   theme: '', // 主题设置
-  base: '/vuepress-demo', // 部署站点的基础路径
+  base: '/vuepress-demo/', // 部署站点的基础路径 值应当总是以斜杠开始，并以斜杠结束
   // dest: '', // 打包位置
   head: [['link', { rel: 'icon', href: `/logo.png` }]],
   lang: 'zh-CN',
