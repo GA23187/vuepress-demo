@@ -77,6 +77,67 @@ sidebar: false
 ---
 ```
 
+
+
+
+
+## 插件
+
+### 使用插件
+
+在 `.vuepress/config.js` 中做一些配置来使用插件
+
+```js
+module.exports = {
+  plugins: [
+  	// 引入自定义的插件配置 一般就是处理webpack
+    require('./my-plugin.js')
+  ],
+  // 或 npm安装的依赖的插件 插件名以 vuepress-plugin- 开头，你可以使用缩写来省略这个前缀
+  plugins: [ 'vuepress-plugin-xx' ]
+  // 插件可以通过在配置内的数组中封装名称和选项对象来指定选项：
+   plugins: [
+    [
+      'vuepress-plugin-xxx',
+      { /* options */ }
+    ]
+  ]
+  // 或者使用对象的方式
+   plugins: {
+    'xxx': { /* options */ }
+  }
+}
+```
+
+### **开发插件**
+
+> 一个 VuePress 插件应该是一个 `CommonJS 模块`，因为 VuePress 插件运行在 Node 端。
+
+一个插件应该导出一个普通的 JavaScript 对象（`#1`），如果插件需要接受配置选项，那么它可以是一个返回对象的函数（`#2`），函数接受插件的配置选项为第一个参数、包含编译期上下文的 [ctx](https://vuepress.vuejs.org/zh/plugin/context-api.html) 对象作为第二个参数
+
+```js
+// #1
+module.exports = {
+   // ...
+}
+// #2
+module.exports = (options, ctx) => {
+   return {
+      // ...
+   }
+}
+```
+
+
+
+
+
+## 拓展
+
+### 展示pdf
+
+
+
 ## 部署
 
 ### GitHub Pages and Github Actions
@@ -116,7 +177,7 @@ jobs:
         CNAME: https://www.xxx.com
 ```
 
-根据实际情况修改
+以上文件根据实际情况修改。
 
 详细使用方法，可以看[jenkey2011/vuepress-deploy(opens new window)](https://github.com/jenkey2011/vuepress-deploy/)
 
